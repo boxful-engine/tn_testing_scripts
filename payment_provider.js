@@ -1,5 +1,5 @@
 LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
-
+  console.log("hello from LoadCheckoutPaymentContext")
 	// Create a new instance of external Payment Option and set its properties.
 	var TestAppBoxfulExternalPaymentOption = PaymentOptions.ExternalPayment({
 		// Set the option"s unique id as it is configured on the Payment Provider so Checkout can relate them.
