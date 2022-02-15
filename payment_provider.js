@@ -1,5 +1,31 @@
 LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
   console.log("hello from LoadCheckoutPaymentContext")
+  console.log(Checkout);
+  console.log(LS);
+
+  if (type_of(Checkout) !== undefined) {
+    console.log(Checkout.getData("order.cart.lineItems"));
+
+    const subscribeableVariantsIds = [423043645, 423043646, 423043647];
+    const cartVariantsIds = LS.cart.items.map(item => item.variant_id)
+
+    const boxfulCart = subscribeableVariantsIds.some(subscribeableVariantsId => cartVariantsIds.includes(subscribeableVariantsId))
+    console.log(boxfulCart)
+
+  }
+
+  // const productFormSubmits = document.querySelectorAll("form[data-store^='product-form-'] input[type='submit']");
+
+  // const paymentProvidersInterval = setInterval(() => {
+  //   if (typeof(MP_DEVICE_SESSION_ID) !== "undefined") {
+  //     this.setState({ sessionId: MP_DEVICE_SESSION_ID })
+  //     if (this.state.identificationRequired) {
+  //       MercadopagoHandler.getIdentificationTypes();
+  //     }
+  //     clearInterval(timer)
+  //   }
+  // }, 3000);
+
 	// Create a new instance of external Payment Option and set its properties.
 	var TestAppBoxfulExternalPaymentOption = PaymentOptions.ExternalPayment({
 		// Set the option"s unique id as it is configured on the Payment Provider so Checkout can relate them.
