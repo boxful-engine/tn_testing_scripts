@@ -1,16 +1,17 @@
 LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
   console.log("hello from LoadCheckoutPaymentContext")
   console.log(Checkout);
-  console.log(LS);
+  // console.log(LS); There is access to LS
 
   if (typeof(Checkout) !== "undefined") {
-    console.log(Checkout.getData("order.cart.lineItems"));
+    // console.log(Checkout.getData("order.cart.lineItems"));
 
     const subscribeableVariantsIds = [423043645, 423043646, 423043647];
     const cartVariantsIds = LS.cart.items.map(item => item.variant_id)
 
     const boxfulCart = subscribeableVariantsIds.some(subscribeableVariantsId => cartVariantsIds.includes(subscribeableVariantsId))
-    console.log(boxfulCart)
+    Checkout.setData({boxfulCart: boxfulCart})
+    console.log(Checkout.getData("boxfulCart"))
 
   }
 
