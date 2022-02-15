@@ -3,7 +3,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
   console.log(Checkout);
   console.log(LS);
 
-  if (type_of(Checkout) !== undefined) {
+  if (typeof(Checkout) !== "undefined") {
     console.log(Checkout.getData("order.cart.lineItems"));
 
     const subscribeableVariantsIds = [423043645, 423043646, 423043647];
