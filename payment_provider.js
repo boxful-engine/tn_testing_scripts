@@ -44,13 +44,13 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
     if (!Checkout.getData("paymentOptionsHandled")) {
       Checkout.setData({paymentOptionsHandled: true})
       if (validBoxfulCart) {
-        const boxfulPaymentOption = document.querySelector("div.payment-option[id*='boxful'")
-        boxfulPaymentOption.remove()
-      } else {
         const nonBoxfulPaymentOption = document.querySelector("div.payment-option:not([id*='boxful'])")
         nonBoxfulPaymentOption.forEach(option => {
           option.remove()
         });
+      } else {
+        const boxfulPaymentOption = document.querySelector("div.payment-option[id*='boxful'")
+        boxfulPaymentOption.remove()
       }
       clearInterval(paymentProvidersInterval)
     }
