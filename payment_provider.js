@@ -44,7 +44,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
     if (!Checkout.getData("paymentOptionsHandled")) {
       Checkout.setData({paymentOptionsHandled: true})
       if (validBoxfulCart) {
-        const nonBoxfulPaymentOption = document.querySelector("div.payment-option:not([id*='boxful'])")
+        const nonBoxfulPaymentOption = document.querySelectorAll("div.payment-option:not([id*='boxful'])")
         nonBoxfulPaymentOption.forEach(option => {
           option.remove()
         });
