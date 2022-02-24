@@ -1,31 +1,60 @@
 LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
   console.log("hello from LoadCheckoutPaymentContext")
-  console.log(Checkout);
+  // console.log(Checkout);
   // console.log(LS); There is access to LS
+  Checkout.setData({paymentOptionsHandled: false})
 
-  if (typeof(Checkout) !== "undefined") {
-    // console.log(Checkout.getData("order.cart.lineItems"));
+  // if (typeof(Checkout) !== "undefined") {
+  //   // console.log(Checkout.getData("order.cart.lineItems"));
 
-    const subscribeableVariantsIds = [423043645, 423043646, 423043647];
-    const cartVariantsIds = LS.cart.items.map(item => item.variant_id)
+  //   const subscribeableVariantsIds = [423043645, 423043646, 423043647];
+  //   const cartVariantsIds = LS.cart.items.map(item => item.variant_id)
 
-    const boxfulCart = subscribeableVariantsIds.some(subscribeableVariantsId => cartVariantsIds.includes(subscribeableVariantsId))
-    Checkout.setData({boxfulCart: boxfulCart})
-    console.log(Checkout.getData("boxfulCart"))
+  //   const boxfulCart = subscribeableVariantsIds.some(subscribeableVariantsId => cartVariantsIds.includes(subscribeableVariantsId))
+  //   Checkout.setData({boxfulCart: boxfulCart})
+  //   console.log(Checkout.getData("boxfulCart"))
 
-  }
+  // }
+
+  const subscribeableVariantsIds = [423043645, 423043646, 423043647]
+
+  // This one is about hiding the `Agregar al carrito` button at the product show
+  const cartVariants = LS.cart.items.map((item) => {
+    return {
+      "id": item.variant_id,
+      "quantity": item.quantity
+    }
+  })
+
+  const subscribeableVariantsInCart = cartVariants.filter((variant) => {
+    return subscribeableVariantsIds.includes(variant.id)
+  })
+
+  const nonSubscribeableVariantsInCart = cartVariants.filter((variant) => {
+    return !subscribeableVariantsIds.includes(variant.id)
+  })
+
+  const validBoxfulCart = subscribeableVariantsInCart.length === 1 &&
+    nonSubscribeableVariantsInCart.length === 0 &&
+    subscribeableVariantsInCart[0].quantity === 1
 
   // const productFormSubmits = document.querySelectorAll("form[data-store^='product-form-'] input[type='submit']");
 
-  // const paymentProvidersInterval = setInterval(() => {
-  //   if (typeof(MP_DEVICE_SESSION_ID) !== "undefined") {
-  //     this.setState({ sessionId: MP_DEVICE_SESSION_ID })
-  //     if (this.state.identificationRequired) {
-  //       MercadopagoHandler.getIdentificationTypes();
-  //     }
-  //     clearInterval(timer)
-  //   }
-  // }, 3000);
+  const paymentProvidersInterval = setInterval(() => {
+    if (!Checkout.getData("paymentOptionsHandled")) {
+      Checkout.setData({paymentOptionsHandled: true})
+      if (validBoxfulCart) {
+        const boxfulPaymentOption = document.querySelector("div.payment-option[id*='boxful'")
+        boxfulPaymentOption.remove()
+      } else {
+        const nonBoxfulPaymentOption = document.querySelector("div.payment-option:not([id*='boxful'])")
+        nonBoxfulPaymentOption.forEach(option => {
+          option.remove()
+        });
+      }
+      clearInterval(timer)
+    }
+  }, 500);
 
 	// Create a new instance of external Payment Option and set its properties.
 	var TestAppBoxfulExternalPaymentOption = PaymentOptions.ExternalPayment({
