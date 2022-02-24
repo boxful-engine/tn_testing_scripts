@@ -6,7 +6,7 @@
   const subscribeableVariantsIds = [423043645, 423043646, 423043647]
 
   // This one is about hiding the `Agregar al carrito` button at the product show
-  const cartVariants = items.map((item) => {
+  const cartVariants = LS.cart.items.map((item) => {
     return {
       "id": item.variant_id,
       "quantity": item.quantity
