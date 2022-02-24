@@ -52,7 +52,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
           option.remove()
         });
       }
-      clearInterval(timer)
+      clearInterval(paymentProvidersInterval)
     }
   }, 500);
 
